@@ -1,6 +1,7 @@
 {
   "name": "askbox-web",
   "version": "0.1.0",
+  "license": "AGPL-3.0-or-later",
   "private": true,
   "dependencies": {
     "@hcaptcha/react-hcaptcha": "^0.3.7",

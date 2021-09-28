@@ -1,26 +1,24 @@
 import React from 'react';
-import logo from './logo.svg';
+import {Col, Container, Row} from "react-bootstrap";
 import './App.css';
+import NavBar from "./components/Nav";
+import Footer from "./components/Footer";
+import SubmitForm from "./components/Form";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <>
+            <NavBar/>
+            <Container fluid="xl" className="container">
+                <Row as="main" className="main">
+                    <Col xs={12} sm={11} md={9} lg={8}>
+                        <SubmitForm/>
+                    </Col>
+                </Row>
+            </Container>
+            <Footer/>
+        </>
+    );
 }
 
 export default App;

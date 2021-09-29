@@ -7,11 +7,19 @@ import config from "../config";
 const SubmitForm = () => {
     const [btnDisable, setBtnDisable] = useState(true);
     const [token, setToken] = useState<string | null>(null);
+    // use localStorage to save content
     const [content, setContent] = useLocalStorage("draft", "");
+    // TODO: add dedup
+    const [dedup, setDedup] = useLocalStorage("dedup", "");
 
     const submit = (event: MouseEvent<HTMLButtonElement>) => {
+        setBtnDisable(true);
         console.log(token);
         console.log(content);
+        // TODO: create Ask
+        setBtnDisable(false);
+        setContent(""); // clear localStorage
+        // TODO: display a message
     }
 
     return (

@@ -1,8 +1,7 @@
 import {Button, Form, Spinner} from "react-bootstrap";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
-import React, {MouseEvent, useState} from "react";
+import {MouseEvent, useState} from "react";
 import {useLocalStorage} from "../utils/localStorage";
-import config from "../config";
 
 const randomToken = (nBytes: number) => {
     const buf = new Uint8Array(nBytes);
@@ -22,7 +21,7 @@ const SubmitForm = () => {
         setIsPosting(true);
         try {
             if (token == null) throw new Error("hCAPTCHA token 为空");
-            const resp = await fetch(`${config.apiEndpoint}/ask`, {
+            const resp = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/ask`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -34,7 +33,7 @@ const SubmitForm = () => {
                     dedup: dedup,
                 }),
             });
-            if (resp.status != 409 && !resp.ok)
+            if (resp.status !== 409 && !resp.ok)
                 throw new Error(`HTTP 错误 (${resp.status} - ${resp.statusText})`)
             alert("问题发送成功！")
             setContent(""); // clear localStorage
@@ -62,7 +61,7 @@ const SubmitForm = () => {
                 />
             </Form.Group>
             <HCaptcha
-                sitekey={config.sitekey}
+                sitekey={process.env.REACT_APP_SITE_KEY!!}
                 onVerify={setToken}
             />
             <Button variant="primary" onClick={submit} disabled={token == null || isPosting || !content}>

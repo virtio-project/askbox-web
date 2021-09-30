@@ -2,14 +2,14 @@ export interface Ask {
     id: number,
     askee: number,
     content: string,
-    created_at: string | null | undefined,
+    createdAt: string | null | undefined,
     dedup: string,
 }
 
 export interface Askee {
     id: number,
-    display_name: string,
-    created_at: string | null | undefined,
+    displayName: string,
+    createdAt: string | null | undefined,
 }
 
 export interface createAskRequest {

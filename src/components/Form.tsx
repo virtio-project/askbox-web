@@ -1,8 +1,9 @@
 import {Button, Form, Spinner} from "react-bootstrap";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
-import {MouseEvent, useState} from "react";
+import {useState} from "react";
 import { useParams } from "react-router";
 import {useLocalStorage} from "../utils/localStorage";
+import {createAsk} from "../fetch";
 
 const randomToken = (nBytes: number) => {
     const buf = new Uint8Array(nBytes);
@@ -19,32 +20,25 @@ const SubmitForm = () => {
     // TODO: add dedup
     const [dedup, setDedup] = useLocalStorage("dedup", randomToken(16));
 
-    const submit = async (event: MouseEvent<HTMLButtonElement>) => {
+    const submit = async () => {
         setIsPosting(true);
-        try {
-            if (token == null) throw new Error("hCAPTCHA token 为空");
-            const resp = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/ask`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CAPTCHA-KEY': token,
-                },
-                body: JSON.stringify({
-                    askee: parseInt(askeeId),
-                    content: content,
-                    dedup: dedup,
-                }),
+        if (token == null) {
+            alert(`发送错误: hCAPTCHA token 为空`);
+            return;
+        } else {
+            const result = await createAsk(token, {
+                askee: parseInt(askeeId),
+                content: content,
+                dedup: dedup,
             });
-            if (resp.status !== 409 && !resp.ok)
-                throw new Error(`HTTP 错误 (${resp.status} - ${resp.statusText})`)
-            alert("问题发送成功！")
+            if (result.ok) {
+                alert("问题发送成功！")
+            } else {
+                alert(`发送错误: ${result.val.message}`);
+            }
             setContent(""); // clear localStorage
-        } catch (err) {
-            if (err instanceof Error)
-                alert(`发送错误: ${err.message}`);
-        } finally {
-            setIsPosting(false);
         }
+        setIsPosting(false);
         // TODO: display a message
     }
 

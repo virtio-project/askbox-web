@@ -1,6 +1,7 @@
 import {Button, Form, Spinner} from "react-bootstrap";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import {MouseEvent, useState} from "react";
+import { useParams } from "react-router";
 import {useLocalStorage} from "../utils/localStorage";
 
 const randomToken = (nBytes: number) => {
@@ -10,6 +11,7 @@ const randomToken = (nBytes: number) => {
 }
 
 const SubmitForm = () => {
+    const { askeeId } = useParams<{askeeId: string}>();
     const [token, setToken] = useState<string | null>(null);
     const [isPosting, setIsPosting] = useState(false);
     // use localStorage to save content
@@ -28,7 +30,7 @@ const SubmitForm = () => {
                     'X-CAPTCHA-KEY': token,
                 },
                 body: JSON.stringify({
-                    askee: 1,
+                    askee: parseInt(askeeId),
                     content: content,
                     dedup: dedup,
                 }),

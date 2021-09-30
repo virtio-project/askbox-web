@@ -1,4 +1,4 @@
-import {Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
+import {Container, Nav, Navbar} from "react-bootstrap";
 import { Link } from 'react-router-dom';
 
 const NavBar = () => {
@@ -9,8 +9,7 @@ const NavBar = () => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link as={Link} to="/">首页</Nav.Link>
-                        <Nav.Link as={Link} to="/askee/1/ask">提问</Nav.Link>
+                        <Nav.Link as={Link} to="/">浏览</Nav.Link>
                         {/*
                         <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                             <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>

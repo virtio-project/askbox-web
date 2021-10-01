@@ -7,25 +7,32 @@ import {
 import './App.css';
 import NavBar from "./components/Nav";
 import Footer from "./components/Footer";
-import SubmitForm from "./components/Form";
 import Home from "./pages/Home";
+import PostAsk from "./pages/PostAsk";
 
 function App() {
     return (
         <Router>
-            <NavBar/>
-            <Container fluid="xl" className="container content">
-                <Row as="main" className="main">
-                    <Col xs={12} sm={11} md={9} lg={8}>
-                        <Switch>
-                            <Route exact path="/" component={Home}/>
-                            <Route exact path="/askee/:askeeId([1-9]\d*)/ask" component={SubmitForm} />
-                            <Route exact path="*">404 - 页面未找到</Route>
-                        </Switch>
-                    </Col>
-                </Row>
-            </Container>
-            <Footer/>
+            <Switch>
+                <Route exact path="/obs/:askeeId([1-9]\d*)">
+
+                </Route>
+                <Route path='*'>
+                    <NavBar/>
+                    <Container fluid="xl" className="container content">
+                        <Row as="main" className="main">
+                            <Col xs={12} sm={11} md={9} lg={8}>
+                                <Switch>
+                                    <Route exact path="/" component={Home}/>
+                                    <Route exact path="/askee/:askeeId([1-9]\d*)/ask" component={PostAsk} />
+                                    <Route exact path="*">404 - 页面未找到</Route>
+                                </Switch>
+                            </Col>
+                        </Row>
+                    </Container>
+                    <Footer/>
+                </Route>
+            </Switch>
         </Router>
     );
 }

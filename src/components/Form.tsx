@@ -1,9 +1,9 @@
 import {Button, Form, Spinner} from "react-bootstrap";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import {useState} from "react";
-import { useParams } from "react-router";
 import {useLocalStorage} from "../utils/localStorage";
 import {createAsk} from "../fetch";
+import {Askee} from "../models";
 
 const randomToken = (nBytes: number) => {
     const buf = new Uint8Array(nBytes);
@@ -11,8 +11,11 @@ const randomToken = (nBytes: number) => {
     return [...buf].map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
-const SubmitForm = () => {
-    const { askeeId } = useParams<{askeeId: string}>();
+export interface SubmitFormProps {
+    askee: Askee
+}
+
+const SubmitForm = (props: SubmitFormProps) => {
     const [token, setToken] = useState<string | null>(null);
     const [isPosting, setIsPosting] = useState(false);
     // use localStorage to save content
@@ -27,7 +30,7 @@ const SubmitForm = () => {
             return;
         } else {
             const result = await createAsk(token, {
-                askee: parseInt(askeeId),
+                askee: props.askee.id,
                 content: content,
                 dedup: dedup,
             });
@@ -45,7 +48,7 @@ const SubmitForm = () => {
     return (
         <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                <Form.Label>你想说什么捏～</Form.Label>
+                <Form.Label>你想对{props.askee.displayName}说什么捏～</Form.Label>
                 <Form.Control
                     as="textarea"
                     rows={10}

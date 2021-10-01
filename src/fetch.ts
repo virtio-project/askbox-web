@@ -35,6 +35,37 @@ export const useFetchAskees = () => {
     return {isLoading, askees};
 };
 
+export async function fetchAskee(askeeId: number): Promise<Result<Askee, Error>> {
+    try {
+        const resp = await fetch(`${endpoint}/askee/${askeeId}`);
+
+        if (!resp.ok) {
+            return Err(Error(`HTTP 错误 (${resp.status} - ${resp.statusText})`))
+        }
+
+        return Ok(await resp.json() as Askee);
+    } catch (e) {
+        if (e instanceof Error) {
+            return Err(e)
+        }
+        throw e;
+    }
+}
+
+export const useFetchAskee = (askeeId: number) => {
+    const [isLoading, setIsLoading] = useState(true);
+    const [askee, setAskee] = useState<Result<Askee, Error>>();
+
+    useEffect(() => {
+        (async () => {
+            setAskee(await fetchAskee(askeeId));
+            setIsLoading(false);
+        })();
+    }, [askeeId]);
+
+    return {isLoading, askee};
+};
+
 export async function createAsk(token: string, req: createAskRequest): Promise<Result<Ask, Error>> {
     try {
         const resp = await fetch(`${endpoint}/ask`, {

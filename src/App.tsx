@@ -14,7 +14,7 @@ function App() {
     return (
         <Router>
             <NavBar/>
-            <Container fluid="xl" className="container">
+            <Container fluid="xl" className="container content">
                 <Row as="main" className="main">
                     <Col xs={12} sm={11} md={9} lg={8}>
                         <Switch>

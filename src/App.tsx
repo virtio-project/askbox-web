@@ -9,13 +9,14 @@ import NavBar from "./components/Nav";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import PostAsk from "./pages/PostAsk";
+import Obs from "./pages/Obs";
 
 function App() {
     return (
         <Router>
             <Switch>
-                <Route exact path="/obs/:askeeId([1-9]\d*)">
-
+                <Route exact path="/obs/:accessToken(\w+)">
+                    <Obs/>
                 </Route>
                 <Route path='*'>
                     <NavBar/>

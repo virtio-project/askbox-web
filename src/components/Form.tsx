@@ -1,6 +1,6 @@
 import {Button, Form, Spinner} from "react-bootstrap";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
-import {useState} from "react";
+import {useRef, useState} from "react";
 import {useLocalStorage} from "../utils/localStorage";
 import {createAsk} from "../fetch";
 import {Askee} from "../models";
@@ -22,6 +22,7 @@ const SubmitForm = (props: SubmitFormProps) => {
     const [content, setContent] = useLocalStorage("draft", "");
     // TODO: add dedup
     const [dedup, setDedup] = useLocalStorage("dedup", randomToken(16));
+    const captchaRef = useRef<HCaptcha>(null);
 
     const submit = async () => {
         setIsPosting(true);
@@ -40,6 +41,7 @@ const SubmitForm = (props: SubmitFormProps) => {
                 alert(`发送错误: ${result.val.message}`);
             }
             setContent(""); // clear localStorage
+            captchaRef.current?.resetCaptcha()
         }
         setIsPosting(false);
         // TODO: display a message
@@ -60,6 +62,7 @@ const SubmitForm = (props: SubmitFormProps) => {
                 />
             </Form.Group>
             <HCaptcha
+                ref={captchaRef}
                 sitekey={process.env.REACT_APP_SITE_KEY!!}
                 onVerify={setToken}
             />

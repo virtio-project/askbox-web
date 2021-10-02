@@ -49,3 +49,6 @@
     font-size: x-large;
 }
 
+.date {
+    display: none;
+}

@@ -15,7 +15,7 @@ function App() {
     return (
         <Router>
             <Switch>
-                <Route exact path="/obs/:accessToken(\w+)">
+                <Route exact path="/obs/:accessToken([\w-]+)">
                     <Obs/>
                 </Route>
                 <Route path='*'>
